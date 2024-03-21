@@ -65,16 +65,6 @@ def nowa_gra(root):
     # Linie poziome
     canvas.create_line(0, 100, 300, 100, width=2)
     canvas.create_line(0, 200, 300, 200, width=2)
-    # pola x lub o
-    canvas.create_rectangle(0, 0, 100, 100, fill="", outline="green")
-    canvas.create_rectangle(100, 0, 200, 100, fill="", outline="blue")
-    canvas.create_rectangle(200, 0, 300, 100, fill="", outline="red")
-    canvas.create_rectangle(0, 100, 100, 200, fill="", outline="pink")
-    canvas.create_rectangle(100, 100, 200, 200, fill="", outline="purple")
-    canvas.create_rectangle(200, 100, 300, 200, fill="", outline="yellow")
-    canvas.create_rectangle(0, 200, 100, 300, fill="", outline="black")
-    canvas.create_rectangle(100, 200, 200, 300, fill="", outline="magenta")
-    canvas.create_rectangle(200, 200, 300, 300, fill="", outline="white")
 
     canvas.bind("<Button-1>", dane)
     canvas.pack()
@@ -86,3 +76,5 @@ def dane(event):
     print(x, y)
     wynik = (100 * x) + 50
     print("srodek", wynik)
+    canvas.create_line(wynik,100, 100, 100, fill="black")
+    Canvas()

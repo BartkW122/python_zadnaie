@@ -15,7 +15,7 @@ menubar.add_cascade(label="Graj", menu=graj)
 graj.add_command(label="Nowa gra", command=lambda: nowa_gra(root))
 graj.add_command(label="Zapisz grę")
 graj.add_command(label="Wczytaj grę")
-# graj.add_command(label="Wyjdź",command=root.destroy())
+graj.add_command(label="Wyjdź",command=root.destroy)
 
 
 menubar.add_command(label="Opcje", command=lambda: opcje2(root))
