@@ -1,7 +1,7 @@
 from tkinter import *
 from math import *
 
-
+z = "x"
 def opcje2(root):
     root2 = Toplevel(root)
     root2.title("Opcje")
@@ -71,10 +71,33 @@ def nowa_gra(root):
 
 
 def dane(event):
+    global z
+    global  wynik
+    global wynik2
     x = floor(event.x / 100)
     y = floor(event.y / 100)
     print(x, y)
     wynik = (100 * x) + 50
+    wynik2 = (100 * y) + 50
     print("srodek", wynik)
-    canvas.create_line(wynik,100, 100, 100, fill="black")
-    Canvas()
+    print("srodek2", wynik2)
+
+    z = znak(wynik, wynik2, z)
+    print("Aktualny symbol:", z)
+    wygrana(x_z,o_z, wynik, wynik2)
+
+def znak(wynik, wynik2, znak):
+    global canvas
+    global x_z
+    global o_z
+    if znak == "x":
+        x_z=canvas.create_line(wynik + 20, wynik2 - 20, wynik - 20, wynik2 + 20, fill="black", width=10),canvas.create_line(wynik - 20, wynik2 - 20, wynik + 20, wynik2 + 20, fill="black", width=10)
+        return "o"
+    else:
+        o_z=canvas.create_oval(wynik - 20, wynik2 - 20, wynik + 20, wynik2 + 20, outline="black", width=10)
+        return "x"
+def wygrana(x_z,o_z,wynik,wynik2):
+    if(x_z==True):
+        print("x","jest",wynik,",",wynik2)
+
+
