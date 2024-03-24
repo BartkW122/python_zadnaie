@@ -2,6 +2,7 @@ from tkinter import *
 from math import *
 
 z = "x"
+
 def opcje2(root):
     root2 = Toplevel(root)
     root2.title("Opcje")
@@ -72,7 +73,7 @@ def nowa_gra(root):
 
 def dane(event):
     global z
-    global  wynik
+    global wynik
     global wynik2
     x = floor(event.x / 100)
     y = floor(event.y / 100)
@@ -84,7 +85,6 @@ def dane(event):
 
     z = znak(wynik, wynik2, z)
     print("Aktualny symbol:", z)
-    wygrana(x_z,o_z, wynik, wynik2)
 
 def znak(wynik, wynik2, znak):
     global canvas
@@ -96,8 +96,21 @@ def znak(wynik, wynik2, znak):
     else:
         o_z=canvas.create_oval(wynik - 20, wynik2 - 20, wynik + 20, wynik2 + 20, outline="black", width=10)
         return "x"
-def wygrana(x_z,o_z,wynik,wynik2):
-    if(x_z==True):
-        print("x","jest",wynik,",",wynik2)
+
+
+def zapisz_gre():
+    global wynik, wynik2, z
+
+    with open("zapisana_gra.txt", "w") as file:
+        # Write game data to the file
+        file.write("Symbol: " + str(z) + "\n")
+        file.write("Position X: " + str(wynik) + "\n")
+        file.write("Position Y: " + str(wynik2) + "\n")
+
+    print("Gra została zapisana.")
+
+
+
+
 
 
