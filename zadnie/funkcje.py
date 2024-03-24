@@ -73,6 +73,8 @@ def dane(event):
     global z
     global wynik
     global wynik2
+    global  tab_dane
+    tab_dane=[]
     x = floor(event.x / 100)
     y = floor(event.y / 100)
     #print(x, y)
@@ -83,6 +85,10 @@ def dane(event):
 
     z = znak(wynik, wynik2, z)
     #print("Aktualny symbol:", z)
+    #for i in range(len(tab_dane)):
+    tab_dane.append(wynik)
+    tab_dane.append(wynik2)
+    print(tab_dane)
 
 
 def znak(wynik, wynik2, znak):
