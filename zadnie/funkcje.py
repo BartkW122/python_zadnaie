@@ -1,8 +1,7 @@
 from tkinter import *
 from math import *
-
+import os
 z = "x"
-
 def opcje2(root):
     root2 = Toplevel(root)
     root2.title("Opcje")
@@ -56,7 +55,6 @@ def zamiana_koloru(w):
 
 def nowa_gra(root):
     global canvas
-
     canvas = Canvas(root, width=300, height=300)
     # canvas = Canvas(root, width=300, height=300)
     # Linie pionowe
@@ -77,14 +75,15 @@ def dane(event):
     global wynik2
     x = floor(event.x / 100)
     y = floor(event.y / 100)
-    print(x, y)
+    #print(x, y)
     wynik = (100 * x) + 50
     wynik2 = (100 * y) + 50
-    print("srodek", wynik)
-    print("srodek2", wynik2)
+    #print("srodek", wynik)
+    #print("srodek2", wynik2)
 
     z = znak(wynik, wynik2, z)
-    print("Aktualny symbol:", z)
+    #print("Aktualny symbol:", z)
+
 
 def znak(wynik, wynik2, znak):
     global canvas
@@ -97,19 +96,29 @@ def znak(wynik, wynik2, znak):
         o_z=canvas.create_oval(wynik - 20, wynik2 - 20, wynik + 20, wynik2 + 20, outline="black", width=10)
         return "x"
 
-
 def zapisz_gre():
-    global wynik, wynik2, z
+    global wynik
+    global wynik2
+    global z
 
-    with open("zapisana_gra.txt", "w") as file:
-        # Write game data to the file
-        file.write("Symbol: " + str(z) + "\n")
-        file.write("Position X: " + str(wynik) + "\n")
-        file.write("Position Y: " + str(wynik2) + "\n")
+    file = open('zapisana_gra.txt', 'a')
+    file.write(str(wynik))
+    file.write("\n")
+    file.write(str(wynik2))
+    file.write("\n")
+    file.write(z)
+    file.write("\n")
+    file.close()
 
-    print("Gra została zapisana.")
 
-
+def wczytaj_gre():
+    tab=[]
+    f = open('zapisana_gra.txt', "r")
+    for line in f:
+        tab.append(line)
+    print(tab)
+    f.close()
+    os.remove('zapisana_gra.txt')
 
 
 
