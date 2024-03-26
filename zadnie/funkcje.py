@@ -3,6 +3,10 @@ from math import *
 import os
 import json
 z = "x"
+tab_dane2=[]
+tab_dane=[]
+x_z=0
+o_z=0
 def opcje2(root):
     root2 = Toplevel(root)
     root2.title("Opcje")
@@ -77,40 +81,43 @@ def dane(event):
     global tab_dane
     global tab_dane2
 
-    tab_dane = []
-    tab_dane2=[]
     x = floor(event.x / 100)
     y = floor(event.y / 100)
     wynik = (100 * x) + 50
     wynik2 = (100 * y) + 50
 
-    tab_dane = [wynik, wynik2]
-    tab_dane2.append(tab_dane.copy())
+    tab_dane=[wynik, wynik2]
+
+    tab_dane2.append(tab_dane)
 
     print(tab_dane2)
 
     z = znak(wynik, wynik2, z)
 
+
 def znak(wynik, wynik2, znak):
     global canvas
     global x_z
     global o_z
+    global tab_dane2
+    #if x_z==x_z or o_z==o_z:
+        #print("miejsce zajęte")
+    #else:
     if znak == "x":
         x_z = canvas.create_line(wynik + 20, wynik2 - 20, wynik - 20, wynik2 + 20, fill="black", width=10), canvas.create_line(wynik - 20, wynik2 - 20, wynik + 20, wynik2 + 20, fill="black", width=10)
         return "o"
     else:
         o_z = canvas.create_oval(wynik - 20, wynik2 - 20, wynik + 20, wynik2 + 20, outline="black", width=10)
         return "x"
-
 def zapisz_gre():
     global tab_dane2
     with open('zapisana_gra.json', 'a') as file:
         json.dump(tab_dane2, file)
 
 def wczytaj_gre():
-    global tab_dane2
     with open('zapisana_gra.json', 'r') as file:
-        tab_dane2 = json.load(file)
+        data = json.load(file)
+        print(data)
     os.remove('zapisana_gra.json')
 
 
