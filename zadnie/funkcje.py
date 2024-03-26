@@ -1,6 +1,7 @@
 from tkinter import *
 from math import *
 import os
+import json
 z = "x"
 def opcje2(root):
     root2 = Toplevel(root)
@@ -73,58 +74,44 @@ def dane(event):
     global z
     global wynik
     global wynik2
-    global  tab_dane
-    tab_dane=[]
+    global tab_dane
+    global tab_dane2
+
+    tab_dane = []
+    tab_dane2=[]
     x = floor(event.x / 100)
     y = floor(event.y / 100)
-    #print(x, y)
     wynik = (100 * x) + 50
     wynik2 = (100 * y) + 50
-    #print("srodek", wynik)
-    #print("srodek2", wynik2)
+
+    tab_dane = [wynik, wynik2]
+    tab_dane2.append(tab_dane.copy())
+
+    print(tab_dane2)
 
     z = znak(wynik, wynik2, z)
-    #print("Aktualny symbol:", z)
-    #for i in range(len(tab_dane)):
-    tab_dane.append(wynik)
-    tab_dane.append(wynik2)
-    print(tab_dane)
-
 
 def znak(wynik, wynik2, znak):
     global canvas
     global x_z
     global o_z
     if znak == "x":
-        x_z=canvas.create_line(wynik + 20, wynik2 - 20, wynik - 20, wynik2 + 20, fill="black", width=10),canvas.create_line(wynik - 20, wynik2 - 20, wynik + 20, wynik2 + 20, fill="black", width=10)
+        x_z = canvas.create_line(wynik + 20, wynik2 - 20, wynik - 20, wynik2 + 20, fill="black", width=10), canvas.create_line(wynik - 20, wynik2 - 20, wynik + 20, wynik2 + 20, fill="black", width=10)
         return "o"
     else:
-        o_z=canvas.create_oval(wynik - 20, wynik2 - 20, wynik + 20, wynik2 + 20, outline="black", width=10)
+        o_z = canvas.create_oval(wynik - 20, wynik2 - 20, wynik + 20, wynik2 + 20, outline="black", width=10)
         return "x"
 
 def zapisz_gre():
-    global wynik
-    global wynik2
-    global z
-
-    file = open('zapisana_gra.txt', 'a')
-    file.write(str(wynik))
-    file.write("\n")
-    file.write(str(wynik2))
-    file.write("\n")
-    file.write(z)
-    file.write("\n")
-    file.close()
-
+    global tab_dane2
+    with open('zapisana_gra.json', 'a') as file:
+        json.dump(tab_dane2, file)
 
 def wczytaj_gre():
-    tab=[]
-    f = open('zapisana_gra.txt', "r")
-    for line in f:
-        tab.append(line)
-    print(tab)
-    f.close()
-    os.remove('zapisana_gra.txt')
+    global tab_dane2
+    with open('zapisana_gra.json', 'r') as file:
+        tab_dane2 = json.load(file)
+    os.remove('zapisana_gra.json')
 
 
 
