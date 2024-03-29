@@ -3,6 +3,7 @@ from tkinter import messagebox
 from math import *
 import os
 import json
+import random
 z = "x"
 tab_dane2=[]
 tab_dane=[]
@@ -45,15 +46,20 @@ def opcje2(root,canvas):
     tryb2 = Radiobutton(root2, variable=w2, value=5)
     tryb2.pack()
 
-    btn = Button(root2, text="zapisz", command=lambda: zamiana_koloru(w,canvas))
+    #btn = Button(root2, text="zapisz", command=lambda: zamiana_koloru(w,canvas))
+    btn = Button(root2, text="zapisz", command=lambda: zapisz(w,w2,canvas))
     btn.pack()
 
     root2.mainloop()
-#tu trzeba zrobić \/
-def komputer():
+
+def wybor_gracz(w2):
     global z
     global plansza
-    messagebox.showinfo('grasz','grasz z Botem')
+    w2_get=w2.get()
+    if w2_get==5:
+        messagebox.showinfo('grasz','grasz z Botem')
+    else:
+        messagebox.showinfo('grasz', 'grasz z człowiekiem')
 
 def zamiana_koloru(w,canvas):
     w_get = w.get()
@@ -63,7 +69,13 @@ def zamiana_koloru(w,canvas):
         canvas.configure(bg="blue")
     if w_get == 3:
         canvas.configure(bg="red")
+def zapisz(w,w2,canvas):
+    zamiana_koloru(w,canvas)
+    wybor_gracz(w2)
 
+def komputer():
+    global plansza
+    global z
 
 
 def nowa_gra(root, canvas):
