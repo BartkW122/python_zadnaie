@@ -217,13 +217,26 @@ def pole_na_zapisywanie_pliku(root):
     root3.mainloop()
 def pole_na_pliki(root):
     global name
+    global w3
+    pliki=[]
     root4 = Toplevel(root)
     root4.title("PLIKI(WYBÓR)")
     root4.geometry("300x200")
-    n = Label(root4, text="podaj nazwe pliku:")
-    n.pack()
-    name = Entry(root4)
-    name.pack()
+    w3 = StringVar(master=root4)
+    folder_path = r"C:\Users\Ja\OneDrive\Pulpit\prywatny git\zadnie"
+    rozszerzenie='.txt'
+    contents = os.listdir(folder_path)
+    p = Label(root4, text='dostępne pliki:')
+    p.pack()
+    for item in contents:
+        if item.endswith(rozszerzenie):
+
+            t=Label(root4, text=f'{item} ')
+            t.pack()
+            p2 = Radiobutton(root4,variable=w3,value=f'{item} ')
+            p2.pack()
+
+
     btn = Button(root4, text="wczytaj",command=wczytaj_gre)
     btn.pack()
     btn2 = Button(root4, text="wyjdź", command=root4.destroy)
@@ -232,12 +245,13 @@ def pole_na_pliki(root):
 def zapisz_gre():
     global tab_dane2
     global name
-    with open(f'{name.get()}', 'a') as file:
+    with open(f'{name.get()}.txt', 'a') as file:
         json.dump(tab_dane2, file)
 def wczytaj_gre():
     global name
-    #print(name.get())
-    with open(f'{name.get()}', 'r') as file:
+    global w3
+    print(w3.get())
+    with open(f'{w3.get()}', 'r') as file:
         data = json.load(file)
         print(data)
 
