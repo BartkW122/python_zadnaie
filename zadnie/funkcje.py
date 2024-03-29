@@ -160,26 +160,22 @@ def remis():
     return True
 
 
-def zapisywanie_danych():
-    global wynik
-    global wynik2
-    global tab_dane
-    global tab_dane2
-    tab_dane = [wynik, wynik2]
 
-    tab_dane2.append(tab_dane)
 
 
 def ruch(wynik, wynik2, znak, canvas, w2):
     global tab_dane2
+    global tab_wynik
     global x
     global y
     #wybor_gracz(w2)
+    print(plansza)
+    #if wczytaj_gre():
     if wybor_gracz(w2)=="bot":
         komputer()
 
     if sprawdz_czy_puste():
-        zapisywanie_danych()
+
         plansza[x][y] = znak
         if wygrana():
             messagebox.showinfo('Wygrana', f'Gracz {znak} wygrywa!')
@@ -221,7 +217,7 @@ def pole_na_pliki(root):
     pliki=[]
     root4 = Toplevel(root)
     root4.title("PLIKI(WYBÓR)")
-    root4.geometry("300x200")
+    root4.geometry("300x300")
     w3 = StringVar(master=root4)
     folder_path = r"C:\Users\Ja\OneDrive\Pulpit\prywatny git\zadnie"
     rozszerzenie='.txt'
@@ -243,15 +239,20 @@ def pole_na_pliki(root):
     btn2.pack()
     root4.mainloop()
 def zapisz_gre():
-    global tab_dane2
+    global plansza
     global name
     with open(f'{name.get()}.txt', 'a') as file:
-        json.dump(tab_dane2, file)
+        json.dump(plansza, file)
 def wczytaj_gre():
     global name
     global w3
-    print(w3.get())
+    global y
+    global z
+    tab_wynik=[]
     with open(f'{w3.get()}', 'r') as file:
         data = json.load(file)
-        print(data)
+        tab_wynik.append(data)
+    print('zapisana gra:')
+    for i in range(len(tab_wynik)):
+        print(tab_wynik[i])
 
