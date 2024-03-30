@@ -7,6 +7,7 @@ global w2
 global event
 
 
+
 root = Tk()
 root.title("GRA")
 root.geometry("300x300")
@@ -19,7 +20,7 @@ graj = Menu(menubar, tearoff=0)
 menubar.add_cascade(label="Graj", menu=graj)
 graj.add_command(label="Nowa gra", command=lambda: nowa_gra(root,canvas))
 graj.add_command(label="Zapisz grę",command=lambda: pole_na_zapisywanie_pliku(root))
-graj.add_command(label="Wczytaj grę",command=lambda: pole_na_pliki(root))
+graj.add_command(label="Wczytaj grę",command=lambda: pole_na_pliki(root,canvas))
 graj.add_command(label="Wyjdź",command=root.destroy)
 
 

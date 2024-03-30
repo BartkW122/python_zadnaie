@@ -83,6 +83,7 @@ def zapis(w, w2, canvas):
 
 
 def komputer():
+    #to nie dzaiła jak cos
     global plansza
     global z
     global x
@@ -169,18 +170,21 @@ def ruch(wynik, wynik2, znak, canvas, w2):
     global x
     global y
     #wybor_gracz(w2)
-    print(plansza)
+
     #if wczytaj_gre():
+
+    print(plansza)
+    #tu też nie działa jak cos
     if wybor_gracz(w2)=="bot":
         komputer()
 
     if sprawdz_czy_puste():
-
-        plansza[x][y] = znak
         if wygrana():
             messagebox.showinfo('Wygrana', f'Gracz {znak} wygrywa!')
         if remis():
             messagebox.showinfo('remis', 'remis')
+        plansza[x][y] = znak
+
         if znak == "x":
             canvas.create_line(wynik + 20, wynik2 - 20, wynik - 20, wynik2 + 20, fill="black", width=10)
             canvas.create_line(wynik - 20, wynik2 - 20, wynik + 20, wynik2 + 20, fill="black", width=10)
@@ -211,9 +215,10 @@ def pole_na_zapisywanie_pliku(root):
     btn2 = Button(root3, text="wyjdź", command=root3.destroy)
     btn2.pack()
     root3.mainloop()
-def pole_na_pliki(root):
+def pole_na_pliki(root,canvas):
     global name
     global w3
+    w2=IntVar(master=root)
     pliki=[]
     root4 = Toplevel(root)
     root4.title("PLIKI(WYBÓR)")
@@ -233,26 +238,41 @@ def pole_na_pliki(root):
             p2.pack()
 
 
-    btn = Button(root4, text="wczytaj",command=wczytaj_gre)
+    btn = Button(root4, text="wczytaj",command=lambda: wczytaj_gre(canvas, w2))
     btn.pack()
     btn2 = Button(root4, text="wyjdź", command=root4.destroy)
     btn2.pack()
     root4.mainloop()
+
+
 def zapisz_gre():
     global plansza
     global name
     with open(f'{name.get()}.txt', 'a') as file:
         json.dump(plansza, file)
-def wczytaj_gre():
-    global name
-    global w3
-    global y
-    global z
-    tab_wynik=[]
-    with open(f'{w3.get()}', 'r') as file:
-        data = json.load(file)
-        tab_wynik.append(data)
-    print('zapisana gra:')
-    for i in range(len(tab_wynik)):
-        print(tab_wynik[i])
 
+
+def wczytaj_gre(canvas, w2):
+    global plansza
+    global w3
+
+    with open(w3.get(), 'r') as file:
+        data = json.load(file)
+        plansza = data
+
+    canvas.delete("all")
+    for linia_2 in range(1, 3):
+        canvas.create_line(linia_2 * 100, 0, linia_2 * 100, 300, fill="black", width=5)
+        canvas.create_line(0, linia_2 * 100, 300, linia_2 * 100, fill="black", width=5)
+
+
+    for x_2 in range(len(plansza)):
+        for y_2 in range(len(plansza[x_2])):
+            wynik_2 = y_2 * 100 + 50
+            wynik2_2 = x_2 * 100 + 50
+            if plansza[x_2][y_2] == "x":
+                canvas.create_line(wynik_2 - 20, wynik2_2 - 20, wynik_2 + 20, wynik2_2 + 20, fill="black", width=10)
+                canvas.create_line(wynik_2 - 20, wynik2_2 + 20, wynik_2 + 20, wynik2_2 - 20, fill="black", width=10)
+            elif plansza[x_2][y_2] == "o":
+                canvas.create_oval(wynik_2 - 20, wynik2_2 - 20, wynik_2 + 20, wynik2_2 + 20, outline="black", width=10)
+    canvas.bind("<Button-1>", lambda event: dane(event, canvas, w2))
