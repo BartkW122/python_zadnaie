@@ -6,14 +6,13 @@ import json
 import random
 
 z = "x"
-tab_dane2 = []
-tab_dane = []
 x_z = 0
 o_z = 0
 plansza = [['' for _ in range(3)] for _ in range(3)]
 
 
 def opcje2(root, canvas):
+
     root2 = Toplevel(root)
     root2.title("Opcje")
     root2.geometry("300x300")
@@ -36,7 +35,7 @@ def opcje2(root, canvas):
     kolor3 = Radiobutton(root2, variable=w, value=3)
     kolor3.pack()
 
-    w2 = IntVar(master=root2)  # Define w2 here
+    w2 = IntVar(master=root2)
     tryb = Label(root2, text="tryb gry:")
     tryb.pack()
     tryb1 = Label(root2, text="człowiek")
@@ -57,7 +56,9 @@ def opcje2(root, canvas):
 
 
 
-def wybor_gracz(w2):
+
+def wybor_gracz(w2,canvas):
+    global z
     w2_get = w2.get()
     if w2_get == 5:
         messagebox.showinfo('grasz', 'grasz z Botem')
@@ -65,6 +66,7 @@ def wybor_gracz(w2):
     if w2_get == 4:
         messagebox.showinfo('grasz', 'grasz z człowiekiem')
         return "czlowiek"
+    #ruch(wynik2,wynik,z,canvas,w2)
 
 
 def zamiana_koloru(w, canvas):
@@ -79,7 +81,7 @@ def zamiana_koloru(w, canvas):
 
 def zapis(w, w2, canvas):
     zamiana_koloru(w, canvas)
-    wybor_gracz(w2)
+    wybor_gracz(w2,canvas)
 
 
 def komputer():
@@ -97,18 +99,15 @@ def komputer():
 def nowa_gra(root, canvas):
     global plansza
     global z
-    global tab_dane
-    global tab_dane2
-    w2=IntVar(master=root)
-    tab_dane = []
-    tab_dane2 = []
+    w2 = IntVar(master=root)
     plansza = [['' for _ in range(3)] for _ in range(3)]
     canvas.delete("all")
     for linia in range(1, 3):
         canvas.create_line(linia * 100, 0, linia * 100, 300, fill="black", width=5)
         canvas.create_line(0, linia * 100, 300, linia * 100, fill="black", width=5)
     z = "x"
-    canvas.bind("<Button-1>", lambda event, w2=w2: dane(event, canvas, w2))
+    canvas.bind("<Button-1>", lambda event, canvas=canvas, w2=w2: dane(event, canvas, w2))
+
 
 
 def dane(event, canvas, w2):
@@ -124,6 +123,9 @@ def dane(event, canvas, w2):
     wynik2 = (100 * y) + 50
 
     z = ruch(wynik, wynik2, z, canvas, w2)
+
+
+
 
 
 def sprawdz_czy_puste():
@@ -169,21 +171,26 @@ def ruch(wynik, wynik2, znak, canvas, w2):
     global tab_wynik
     global x
     global y
-    #wybor_gracz(w2)
 
-    #if wczytaj_gre():
 
-    print(plansza)
+
     #tu też nie działa jak cos
-    if wybor_gracz(w2)=="bot":
+    if wybor_gracz(w2,canvas)=="bot":
         komputer()
 
-    if sprawdz_czy_puste():
+    if sprawdz_czy_puste()==True:
+
         if wygrana():
+            canvas.unbind("<Button-1>")
             messagebox.showinfo('Wygrana', f'Gracz {znak} wygrywa!')
+
+
         if remis():
+            canvas.unbind("<Button-1>")
             messagebox.showinfo('remis', 'remis')
+
         plansza[x][y] = znak
+        print("ruch", plansza)
 
         if znak == "x":
             canvas.create_line(wynik + 20, wynik2 - 20, wynik - 20, wynik2 + 20, fill="black", width=10)
@@ -192,9 +199,11 @@ def ruch(wynik, wynik2, znak, canvas, w2):
         else:
             canvas.create_oval(wynik - 20, wynik2 - 20, wynik + 20, wynik2 + 20, outline="black", width=10)
             return "x"
+
     else:
         messagebox.showinfo('miejsce', 'miejsce jest zajete')
         return znak
+
 
 
 
@@ -248,6 +257,8 @@ def pole_na_pliki(root,canvas):
 def zapisz_gre():
     global plansza
     global name
+    messagebox.showinfo('zapis','Gra została zapisana')
+    print(plansza)
     with open(f'{name.get()}.txt', 'a') as file:
         json.dump(plansza, file)
 
@@ -255,11 +266,11 @@ def zapisz_gre():
 def wczytaj_gre(canvas, w2):
     global plansza
     global w3
-
+    messagebox.showinfo('wczytywanie','gra została wczytana')
     with open(w3.get(), 'r') as file:
         data = json.load(file)
         plansza = data
-
+    print(plansza)
     canvas.delete("all")
     for linia_2 in range(1, 3):
         canvas.create_line(linia_2 * 100, 0, linia_2 * 100, 300, fill="black", width=5)
@@ -270,6 +281,7 @@ def wczytaj_gre(canvas, w2):
         for y_2 in range(len(plansza[x_2])):
             wynik_2 = y_2 * 100 + 50
             wynik2_2 = x_2 * 100 + 50
+            print(wynik_2,"::",wynik2_2,"::",x_2,"::",y_2)
             if plansza[x_2][y_2] == "x":
                 canvas.create_line(wynik_2 - 20, wynik2_2 - 20, wynik_2 + 20, wynik2_2 + 20, fill="black", width=10)
                 canvas.create_line(wynik_2 - 20, wynik2_2 + 20, wynik_2 + 20, wynik2_2 - 20, fill="black", width=10)
