@@ -266,7 +266,7 @@ def zapisz_gre():
 def wczytaj_gre(canvas, w2):
     global plansza
     global w3
-    messagebox.showinfo('wczytywanie','gra została wczytana')
+    messagebox.showinfo('wczytywanie', 'gra została wczytana')
     with open(w3.get(), 'r') as file:
         data = json.load(file)
         plansza = data
@@ -276,15 +276,17 @@ def wczytaj_gre(canvas, w2):
         canvas.create_line(linia_2 * 100, 0, linia_2 * 100, 300, fill="black", width=5)
         canvas.create_line(0, linia_2 * 100, 300, linia_2 * 100, fill="black", width=5)
 
-
     for x_2 in range(len(plansza)):
         for y_2 in range(len(plansza[x_2])):
-            wynik_2 = y_2 * 100 + 50
-            wynik2_2 = x_2 * 100 + 50
-            print(wynik_2,"::",wynik2_2,"::",x_2,"::",y_2)
             if plansza[x_2][y_2] == "x":
-                canvas.create_line(wynik_2 - 20, wynik2_2 - 20, wynik_2 + 20, wynik2_2 + 20, fill="black", width=10)
-                canvas.create_line(wynik_2 - 20, wynik2_2 + 20, wynik_2 + 20, wynik2_2 - 20, fill="black", width=10)
+                wynik_2 = y_2 * 100 + 50
+                wynik2_2= x_2 * 100 + 50
+                canvas.create_line(wynik2_2 - 20, wynik_2 - 20, wynik2_2 + 20, wynik_2 + 20, fill="black", width=10)
+                canvas.create_line(wynik2_2 - 20, wynik_2 + 20, wynik2_2 + 20, wynik_2 - 20, fill="black", width=10)
             elif plansza[x_2][y_2] == "o":
-                canvas.create_oval(wynik_2 - 20, wynik2_2 - 20, wynik_2 + 20, wynik2_2 + 20, outline="black", width=10)
+                wynik_2 = y_2 * 100 + 50
+                wynik2_2 = x_2 * 100 + 50
+                canvas.create_oval(wynik2_2 - 20, wynik_2 - 20, wynik2_2 + 20, wynik_2 + 20, outline="black", width=10)
+
     canvas.bind("<Button-1>", lambda event: dane(event, canvas, w2))
+
