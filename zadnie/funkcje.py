@@ -53,20 +53,25 @@ def opcje2(root, canvas):
 
 
     root2.mainloop()
+    root2.destroy()
 
 
 
-
-def wybor_gracz(w2,canvas):
+def wybor_gracz(w2,canvas,w):
     global z
+
     w2_get = w2.get()
-    if w2_get == 5:
-        messagebox.showinfo('grasz', 'grasz z Botem')
-        return "bot"
     if w2_get == 4:
         messagebox.showinfo('grasz', 'grasz z człowiekiem')
         return "czlowiek"
-    #ruch(wynik2,wynik,z,canvas,w2)
+    if w2_get == 5:
+        messagebox.showinfo('grasz', 'grasz z Botem')
+        komputer(canvas,w,w2)
+        return "bot"
+
+
+
+
 
 
 def zamiana_koloru(w, canvas):
@@ -81,36 +86,26 @@ def zamiana_koloru(w, canvas):
 
 def zapis(w, w2, canvas):
     zamiana_koloru(w, canvas)
-    wybor_gracz(w2,canvas)
+    wybor_gracz(w2,canvas,w)
 
 
-def komputer():
-    #to nie dzaiła jak cos
-    global plansza
-    global z
-    global x
-    global y
-    dostepne_ruchy = [(x, y) for x in range(3) for y in range(3) if plansza[x][y] == '']
-    print(random.choice(dostepne_ruchy))
-    plansza[x][y] = "o"
-    print(plansza)
 
 
 def nowa_gra(root, canvas):
     global plansza
     global z
     w2 = IntVar(master=root)
+    w=IntVar(master=root)
     plansza = [['' for _ in range(3)] for _ in range(3)]
     canvas.delete("all")
     for linia in range(1, 3):
         canvas.create_line(linia * 100, 0, linia * 100, 300, fill="black", width=5)
         canvas.create_line(0, linia * 100, 300, linia * 100, fill="black", width=5)
     z = "x"
-    canvas.bind("<Button-1>", lambda event, canvas=canvas, w2=w2: dane(event, canvas, w2))
+    canvas.bind("<Button-1>", lambda event: dane(event, canvas, w2,w))
 
 
-
-def dane(event, canvas, w2):
+def dane(event, canvas, w2,w):
     global z
     global wynik
     global wynik2
@@ -121,11 +116,45 @@ def dane(event, canvas, w2):
     y = floor(event.y / 100)
     wynik = (100 * x) + 50
     wynik2 = (100 * y) + 50
+    if wybor_gracz(w2,canvas,w)=='bot':
+        if komputer(canvas,w2,w):
+            if z=='o':
+                return 'x'
 
     z = ruch(wynik, wynik2, z, canvas, w2)
 
 
 
+
+def komputer(canvas,w,w2):
+    global plansza
+    global z
+    x=0
+    y=0
+
+    dostepne_ruchy = [(x, y) for x in range(3) for y in range(3) if plansza[x][y] == '']
+    if dostepne_ruchy:
+        x,y=random.choice(dostepne_ruchy)
+        print(x,y)
+        plansza[x][y] = "o"
+        print(plansza)
+
+        canvas.delete("all")
+        for linia_2 in range(1, 3):
+            canvas.create_line(linia_2 * 100, 0, linia_2 * 100, 300, fill="black", width=5)
+            canvas.create_line(0, linia_2 * 100, 300, linia_2 * 100, fill="black", width=5)
+        if plansza[x][y] == "x":
+            wynik_2 = y * 100 + 50
+            wynik2_2 = x * 100 + 50
+            canvas.create_line(wynik2_2 - 20, wynik_2 - 20, wynik2_2 + 20, wynik_2 + 20, fill="black", width=10)
+            canvas.create_line(wynik2_2 - 20, wynik_2 + 20, wynik2_2 + 20, wynik_2 - 20, fill="black", width=10)
+        if plansza[x][y] == "o":
+            wynik_2 = y * 100 + 50
+            wynik2_2 = x * 100 + 50
+            canvas.create_oval(wynik2_2 - 20, wynik_2 - 20, wynik2_2 + 20, wynik_2 + 20, outline="black", width=10)
+
+
+        canvas.bind("<Button-1>", lambda event: dane(event, canvas, w2,w))
 
 
 def sprawdz_czy_puste():
@@ -173,11 +202,6 @@ def ruch(wynik, wynik2, znak, canvas, w2):
     global y
 
 
-
-    #tu też nie działa jak cos
-    if wybor_gracz(w2,canvas)=="bot":
-        komputer()
-
     if sprawdz_czy_puste()==True:
 
         if wygrana():
@@ -221,19 +245,20 @@ def pole_na_zapisywanie_pliku(root):
     name.pack()
     btn=Button(root3,text="zapisz",command=zapisz_gre)
     btn.pack()
-    btn2 = Button(root3, text="wyjdź", command=root3.destroy)
-    btn2.pack()
+
     root3.mainloop()
+    root3.destroy()
 def pole_na_pliki(root,canvas):
     global name
     global w3
     w2=IntVar(master=root)
+    w=IntVar(master=root)
     pliki=[]
     root4 = Toplevel(root)
     root4.title("PLIKI(WYBÓR)")
     root4.geometry("300x300")
     w3 = StringVar(master=root4)
-    folder_path = r"C:\Users\Ja\OneDrive\Pulpit\prywatny git\zadnie"
+    folder_path = r"C:\Users\Ja\OneDrive\Pulpit\prywatny git\zadnie"#zmiana ścieżki na ścieżkę gdzie znajduje się folder
     rozszerzenie='.txt'
     contents = os.listdir(folder_path)
     p = Label(root4, text='dostępne pliki:')
@@ -247,12 +272,11 @@ def pole_na_pliki(root,canvas):
             p2.pack()
 
 
-    btn = Button(root4, text="wczytaj",command=lambda: wczytaj_gre(canvas, w2))
+    btn = Button(root4, text="wczytaj",command=lambda: wczytaj_gre(canvas, w2,w))
     btn.pack()
-    btn2 = Button(root4, text="wyjdź", command=root4.destroy)
-    btn2.pack()
-    root4.mainloop()
 
+    root4.mainloop()
+    root4.destroy()
 
 def zapisz_gre():
     global plansza
@@ -263,7 +287,7 @@ def zapisz_gre():
         json.dump(plansza, file)
 
 
-def wczytaj_gre(canvas, w2):
+def wczytaj_gre(canvas, w2,w):
     global plansza
     global w3
     messagebox.showinfo('wczytywanie', 'gra została wczytana')
@@ -288,5 +312,5 @@ def wczytaj_gre(canvas, w2):
                 wynik2_2 = x_2 * 100 + 50
                 canvas.create_oval(wynik2_2 - 20, wynik_2 - 20, wynik2_2 + 20, wynik_2 + 20, outline="black", width=10)
 
-    canvas.bind("<Button-1>", lambda event: dane(event, canvas, w2))
+    canvas.bind("<Button-1>", lambda event: dane(event, canvas, w2,w))
 
