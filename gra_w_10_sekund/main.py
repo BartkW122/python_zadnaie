@@ -10,23 +10,23 @@ def klik(event):
 def przycisk(event):
     gracz_1=g1.get()
     print(f"gracz 1 ma przycisk {gracz_1}")
-    okno.bind(f"{gracz_1}", klik)
+    okno.bind(f"{gracz_1}", stop)
     g1.config(state= "disabled")
 def zmien():
-    g1.config(state="enable")
+    g1.config(state="normal")
 def start():
     global start_czasu
     start_czasu = time.time()
     czas()
 
-def stop():
+def stop(event):
     global start_czasu, stop_czasu
     if start_czasu != 0:
         stop_czasu = time.time()
         zapisany_czas = stop_czasu - start_czasu
         print("Minęło:", round(zapisany_czas, 2), "sekund")
         tab_czas.append(round(zapisany_czas, 2))
-        start_czasu = 0
+        #start_czasu = 0
 
 def czas():
     global start_czasu
@@ -49,14 +49,18 @@ g1=Entry(okno)
 g1.pack()
 zapisz=Button(okno,text="zapisz",command=lambda:przycisk(Event))
 zapisz.pack()
-#okno.bind("a", przycisk)
+
+zmien=Button(okno,text="zmien",command=zmien)
+zmien.pack()
+
 start_button = Button(okno, text="Start", command=start)
 start_button.pack()
 
-stop_button = Button(okno, text="Stop", command=stop)
+stop_button = Button(okno, text="Stop", command=lambda:stop(Event))
 stop_button.pack()
 
 pokaz_czas = Button(okno, text="pokaz", command=pokaz_zapisaany_czas)
 pokaz_czas.pack()
+
 
 okno.mainloop()
