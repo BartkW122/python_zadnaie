@@ -23,6 +23,8 @@ def zmien():
     g2.config(state="normal")
 def start():
     global start_czasu
+    okno.bind(f"{gracz_1}", stop)
+    okno.bind(f"{gracz_2}", stop)
     start_czasu = time.time()
     czas()
 
@@ -35,9 +37,12 @@ def stop(event):
         if event.char== gracz_1:
             czas_g1=round(zapisany_czas, 2)
             print("klikniento g1")
+            okno.unbind(f"{gracz_1}")
         if event.char== gracz_2:
             czas_g2=round(zapisany_czas, 2)
             print("klikniento g2")
+            g2.config(state="disabled")
+            okno.unbind(f"{gracz_2}")
         
        
 
@@ -46,10 +51,10 @@ def czas():
     if start_czasu != 0:
         zapisany_czas = time.time() - start_czasu
         print("Pozostało:", round(zapisany_czas, 2), "sekund")
-        if zapisany_czas < 10:
+        if zapisany_czas < 15:
             okno.after(100, czas)
         else:
-            print("Minęło  10 sekund!")
+            print("Minęło  15 sekund!")
 def pokaz_zapisaany_czas():
     print("zapisany czas_g1 "+str(czas_g1))
     print("zapisany czas_g2 "+str(czas_g2))
