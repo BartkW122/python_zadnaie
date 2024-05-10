@@ -3,17 +3,30 @@ from tkinter import *
 
 start_czasu = 0
 stop_czasu = 0
+tab_graczy=[]
 czas_g1=0
 czas_g2=0
-
-def klik(event):
-    print("kliknięto")
+en=[]
+def gracz():
+    ilosc_g=ilosc_graczy.get()
+    ilosc_g_2=int(ilosc_g)
+    
+    for i in range(1,ilosc_g_2+1):
+        print(i)
+        Label(okno,text=f"podaj znak dla gracza {i}:").pack()
+        e=Entry(okno)
+        e.pack()
+        en.append(e)
 def przycisk(event):
     global gracz_1,gracz_2
-    gracz_1=g1.get()
-    gracz_2=g2.get()
-    print(f"gracz 1 ma przycisk {gracz_1}")
-    print(f"gracz 2 ma przycisk {gracz_2}")
+    #gracz_1=g1.get()
+    #gracz_2=g2.get()
+    for i in range(en.length):
+        print(i)
+        gracz=en[i].get()
+        print(f"gracz {i} ma przycisk {gracz}")
+    #print(f"gracz 1 ma przycisk {gracz_1}")
+    #print(f"gracz 2 ma przycisk {gracz_2}")
     okno.bind(f"{gracz_1}", stop)
     okno.bind(f"{gracz_2}", stop)
     g1.config(state= "disabled")
@@ -67,31 +80,49 @@ def wygrana():
         print("gracz 2 wygrał")
 okno = Tk()
 okno.title("Gra w 10 sekund")
-okno.geometry("300x300")
-gracz1=Label(okno,text="podaj znak dla gracza 1:")
-gracz1.pack()
-g1=Entry(okno)
-g1.pack()
+okno.geometry("1000x1000")
+#gracz1=Label(okno,text="podaj znak dla gracza 1:")
+#gracz1.pack()
+#g1=Entry(okno)
+#g1.pack()
 
-gracz2=Label(okno,text="podaj znak dla gracza 2:")
-gracz2.pack()
-g2=Entry(okno)
-g2.pack()
-zapisz=Button(okno,text="zapisz",command=lambda:przycisk(Event))
-zapisz.pack()
+#gracz2=Label(okno,text="podaj znak dla gracza 2:")
+#gracz2.pack()
+#g2=Entry(okno)
+#g2.pack()
+#zapisz=Button(okno,text="zapisz",command=lambda:przycisk(Event))
+#zapisz.pack()
 
 
-zmien=Button(okno,text="zmien",command=zmien)
-zmien.pack()
+#zmien=Button(okno,text="zmien",command=zmien)
+#zmien.pack()
 
-start_button = Button(okno, text="Start", command=start)
-start_button.pack()
+#start_button = Button(okno, text="Start", command=start)
+#start_button.pack()
 
 #stop_button = Button(okno, text="Stop", command=lambda:stop(Event))
 #stop_button.pack()
 
-pokaz_czas = Button(okno, text="pokaz", command=pokaz_zapisaany_czas)
+ilosc_graczy=Label(okno,text="podaj znak dla gracza 2:")
+ilosc_graczy.pack()
+ilosc_graczy=Entry(okno)
+ilosc_graczy.pack()
+
+
+
+stwoz_graczy = Button(okno, text="stworz graczy", command=gracz)
+stwoz_graczy.pack()
+
+start_button = Button(okno, text="Start", command=start)
+start_button.pack()
+
+pokaz_czas = Button(okno, text="pokaz_czas", command=pokaz_zapisaany_czas)
 pokaz_czas.pack()
 
+zapisz=Button(okno,text="zapisz_znak",command=lambda:przycisk(Event))
+zapisz.pack()
+
+zmien=Button(okno,text="zmien_znak",command=zmien)
+zmien.pack()
 
 okno.mainloop()
