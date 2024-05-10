@@ -24,10 +24,11 @@ def przycisk(event):
     for i in range(len(en)):
         gracz=en[i].get()
         print(f"gracz {i} ma przycisk {gracz}")
+        okno.bind(f"gracz{i}", stop)
     #print(f"gracz 1 ma przycisk {gracz_1}")
     #print(f"gracz 2 ma przycisk {gracz_2}")
-    okno.bind(f"{gracz_1}", stop)
-    okno.bind(f"{gracz_2}", stop)
+    #okno.bind(f"{gracz_1}", stop)
+    #okno.bind(f"{gracz_2}", stop)
     g1.config(state= "disabled")
     g2.config(state= "disabled")
 def zmien():
