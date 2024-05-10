@@ -21,8 +21,7 @@ def przycisk(event):
     global gracz_1,gracz_2
     #gracz_1=g1.get()
     #gracz_2=g2.get()
-    for i in range(en.length):
-        print(i)
+    for i in range(len(en)):
         gracz=en[i].get()
         print(f"gracz {i} ma przycisk {gracz}")
     #print(f"gracz 1 ma przycisk {gracz_1}")
