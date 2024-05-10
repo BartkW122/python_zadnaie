@@ -4,6 +4,7 @@ from tkinter import *
 start_czasu = 0
 stop_czasu = 0
 tab_graczy=[]
+tab_czas=[]
 czas_g1=0
 czas_g2=0
 en=[]
@@ -19,25 +20,20 @@ def gracz():
         en.append(e)
 def przycisk(event):
     global gracz_1,gracz_2
-    #gracz_1=g1.get()
-    #gracz_2=g2.get()
+    
     for i in range(len(en)):
         gracz=en[i].get()
         print(f"gracz {i} ma przycisk {gracz}")
         okno.bind(f"gracz{i}", stop)
-    #print(f"gracz 1 ma przycisk {gracz_1}")
-    #print(f"gracz 2 ma przycisk {gracz_2}")
-    #okno.bind(f"{gracz_1}", stop)
-    #okno.bind(f"{gracz_2}", stop)
-    g1.config(state= "disabled")
-    g2.config(state= "disabled")
+    
+        en[i].config(state= "disabled")
 def zmien():
-    g1.config(state="normal")
-    g2.config(state="normal")
+    for i in range(len(en)):
+      en[i].config(state="normal")
 def start():
     global start_czasu
-    okno.bind(f"{gracz_1}", stop)
-    okno.bind(f"{gracz_2}", stop)
+    for i in range(len(en)):
+         okno.bind(f"gracz{i}", stop)
     start_czasu = time.time()
     czas()
 
@@ -47,17 +43,11 @@ def stop(event):
         stop_czasu = time.time()
         zapisany_czas = stop_czasu - start_czasu
         print("Minęło:", round(zapisany_czas, 2), "sekund")
-        if event.char== gracz_1:
-            czas_g1=round(zapisany_czas, 2)
-            print("klikniento g1")
-            okno.unbind(f"{gracz_1}")
-        if event.char== gracz_2:
-            czas_g2=round(zapisany_czas, 2)
-            print("klikniento g2")
-            g2.config(state="disabled")
-            okno.unbind(f"{gracz_2}")
-        
-       
+        for i in range(len(en)):
+            if event.char== gracz_1:
+                tab_czas.append(round(zapisany_czas, 2))
+                print(f"klikniento g{i}")
+                okno.unbind(f"gracz{i}")
 
 def czas():
     global start_czasu,czas_g1,czas_g2
@@ -71,37 +61,18 @@ def czas():
 def pokaz_zapisaany_czas():
     print("zapisany czas_g1 "+str(czas_g1))
     print("zapisany czas_g2 "+str(czas_g2))
+    print(en)
     wygrana()
     
-def wygrana():
-    if czas_g1>czas_g2:
-        print("gracz 1 wygrał")
-    if czas_g2>czas_g1:
-        print("gracz 2 wygrał")
+#def wygrana():
+    #if czas_g1>czas_g2:
+        #print("gracz 1 wygrał")
+    #if czas_g2>czas_g1:
+        #print("gracz 2 wygrał")
 okno = Tk()
 okno.title("Gra w 10 sekund")
-okno.geometry("1000x1000")
-#gracz1=Label(okno,text="podaj znak dla gracza 1:")
-#gracz1.pack()
-#g1=Entry(okno)
-#g1.pack()
+okno.geometry("800x800")
 
-#gracz2=Label(okno,text="podaj znak dla gracza 2:")
-#gracz2.pack()
-#g2=Entry(okno)
-#g2.pack()
-#zapisz=Button(okno,text="zapisz",command=lambda:przycisk(Event))
-#zapisz.pack()
-
-
-#zmien=Button(okno,text="zmien",command=zmien)
-#zmien.pack()
-
-#start_button = Button(okno, text="Start", command=start)
-#start_button.pack()
-
-#stop_button = Button(okno, text="Stop", command=lambda:stop(Event))
-#stop_button.pack()
 
 ilosc_graczy=Label(okno,text="podaj znak dla gracza 2:")
 ilosc_graczy.pack()
