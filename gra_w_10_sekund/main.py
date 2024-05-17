@@ -3,11 +3,8 @@ from tkinter import *
 
 start_czasu = 0
 stop_czasu = 0
-tab_graczy = []
 tab_czas = []
-czas_g1 = 0
-czas_g2 = 0
-en = []
+en = [] #tabela graczy
 
 
 def gracz():
@@ -26,7 +23,7 @@ def przycisk(event):
     for i in range(len(en)):
         gracz_btn = en[i].get()
         print(f"gracz {i} ma przycisk {gracz_btn}")
-        okno.bind(f"gracz{i}", stop)
+        okno.bind(gracz_btn, stop)
 
         en[i].config(state="disabled")
 
@@ -58,7 +55,7 @@ def stop(event):
 
 
 def czas():
-    global start_czasu, czas_g1, czas_g2
+    global start_czasu
     if start_czasu != 0:
         zapisany_czas = time.time() - start_czasu
         print("Pozostało:", round(zapisany_czas, 2), "sekund")
@@ -69,17 +66,15 @@ def czas():
 
 
 def pokaz_zapisaany_czas():
-    print("zapisany czas_g1 " + str(czas_g1))
-    print("zapisany czas_g2 " + str(czas_g2))
+    print(tab_czas)
     print(en)
     wygrana()
 
 
-# def wygrana():
-# if czas_g1>czas_g2:
-# print("gracz 1 wygrał")
-# if czas_g2>czas_g1:
-# print("gracz 2 wygrał")
+def wygrana():
+    for i in range(len(tab_czas)):
+        if(tab_czas[i]>tab_czas[i+1]):
+            print(f"gracz {i} wygrywa")
 okno = Tk()
 okno.title("Gra w 10 sekund")
 okno.geometry("800x800")
