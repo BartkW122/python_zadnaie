@@ -32,7 +32,7 @@ def zmien():
 
 def start():
     global start_czasu
-    messagebox.showinfo(message="rozpoczołeś doliczanie czasu!")
+    messagebox.showinfo(message="po kliknięciu przyciksu z rozpocznie się  doliczanie czasu!")
     gracze_czasy.clear()
     for i in range(len(en)):
         okno.bind(en[i].get(), stop)
@@ -58,6 +58,7 @@ def czas():
             okno.after(100, czas)
         else:
             messagebox.showinfo(message="Minęło 15 sekund!")
+            wygrana()
 
 def pokaz_zapisaany_czas():
     gracze_czasy.sort(reverse=True)
@@ -67,7 +68,7 @@ def pokaz_zapisaany_czas():
 def wygrana():
     gracze_czasy.sort(reverse=True)
     zwyciezca=gracze_czasy[0]
-    messagebox.showinfo(message=f"gracz z przyciskiem ({zwyciezca[0]}) wygrał")
+    messagebox.showinfo(message=f"gracz z przyciskiem ({zwyciezca[0]}) wygrał z czasem  {round(15-zwyciezca[1],2)}")
 
 okno = Tk()
 okno.title("Gra w 10 sekund")
@@ -84,13 +85,13 @@ stworz_graczy.pack()
 start_button = Button(okno, text="Start", command=start)
 start_button.pack()
 
-pokaz_czas = Button(okno, text="Pokaż czas", command=pokaz_zapisaany_czas)
-pokaz_czas.pack()
+#pokaz_czas = Button(okno, text="Pokaż czas", command=pokaz_zapisaany_czas)
+#pokaz_czas.pack()
 
 zapisz = Button(okno, text="Zapisz przyciski", command=zapisz_przyciski)
 zapisz.pack()
 
-zmien = Button(okno, text="Zmień znak/czas", command=zmien)
+zmien = Button(okno, text="Zmień znak/ilosc graczy", command=zmien)
 zmien.pack()
 
 okno.mainloop()
