@@ -8,11 +8,14 @@ en = []  # lista graczy
 
 def gracz():
     ilosc_g = int(ilosc_graczy.get())
-    for i in range(1, ilosc_g + 1):
-        Label(okno, text=f"Podaj znak dla gracza {i}:").pack()
-        e = Entry(okno)
-        e.pack()
-        en.append(e)
+    if ilosc_g>=2:
+        for i in range(1, ilosc_g + 1):
+            Label(okno, text=f"Podaj znak dla gracza {i}:").pack()
+            e = Entry(okno)
+            e.pack()
+            en.append(e)
+    else:
+        messagebox.showinfo(message="musi być conajmniej 2 graczy by ropocząć gre!")
 
 def zapisz_przyciski():
     for i in range(len(en)):
@@ -29,6 +32,7 @@ def zmien():
 
 def start():
     global start_czasu
+    messagebox.showinfo(message="rozpoczołeś doliczanie czasu!")
     gracze_czasy.clear()
     for i in range(len(en)):
         okno.bind(en[i].get(), stop)
@@ -41,8 +45,8 @@ def stop(event):
         zapisany_czas = round(time.time() - start_czasu, 2)
         for i in range(len(en)):
             if event.char == en[i].get():
-                gracze_czasy.append((en[i].get(), zapisany_czas))
-                print(f"Gracz {i+1} z przyciskiem '{en[i].get()}' ma {zapisany_czas} sekund")
+                gracze_czasy.append((en[i].get(), round(15-zapisany_czas,2)))
+                print(f"Gracz {i+1} z przyciskiem {en[i].get()} ma {zapisany_czas} sekund")
                 okno.unbind(en[i].get())
 
 def czas():
@@ -56,11 +60,14 @@ def czas():
             messagebox.showinfo(message="Minęło 15 sekund!")
 
 def pokaz_zapisaany_czas():
+    gracze_czasy.sort(reverse=True)
     print(gracze_czasy)
-    #wygrana()
+    wygrana()
 
-#def wygrana():
-
+def wygrana():
+    gracze_czasy.sort(reverse=True)
+    zwyciezca=gracze_czasy[0]
+    messagebox.showinfo(message=f"gracz z przyciskiem ({zwyciezca[0]}) wygrał")
 
 okno = Tk()
 okno.title("Gra w 10 sekund")
