@@ -3,10 +3,7 @@ from tkinter import *
 from tkinter import messagebox
 
 start_czasu = 0
-<<<<<<< HEAD
 czasy=[]
-=======
->>>>>>> b6f7c4618e2b5e1ffe05beccc540db01fa4375c2
 gracze_czasy = []
 en = []  # lista graczy
 
@@ -49,12 +46,8 @@ def stop(event):
         zapisany_czas = round(time.time() - start_czasu, 2)
         for i in range(len(en)):
             if event.char == en[i].get():
-<<<<<<< HEAD
                 gracze_czasy.append((en[i].get(), round(10-zapisany_czas,2)))
                 czasy.append((en[i].get(), round(zapisany_czas,2)))
-=======
-                gracze_czasy.append((en[i].get(), round(15-zapisany_czas,2)))
->>>>>>> b6f7c4618e2b5e1ffe05beccc540db01fa4375c2
                 print(f"Gracz {i+1} z przyciskiem {en[i].get()} ma {zapisany_czas} sekund")
                 okno.unbind(en[i].get())
 
@@ -77,16 +70,11 @@ def pokaz_zapisaany_czas():
 def wygrana():
     gracze_czasy.sort(reverse=True)
     zwyciezca=gracze_czasy[0]
-<<<<<<< HEAD
     messagebox.showinfo(message=f"gracz z przyciskiem ({zwyciezca[0]}) wygrał z czasem  {round(10-zwyciezca[1],2)}")
 
 #def pokaz_czasy_graczy():
     #for i in range(len(czasy)):
     #messagebox.showinfo(message=)
-=======
-    messagebox.showinfo(message=f"gracz z przyciskiem ({zwyciezca[0]}) wygrał z czasem  {round(15-zwyciezca[1],2)}")
-
->>>>>>> b6f7c4618e2b5e1ffe05beccc540db01fa4375c2
 okno = Tk()
 okno.title("Gra w 10 sekund")
 okno.geometry("800x800")
@@ -102,11 +90,7 @@ stworz_graczy.pack()
 start_button = Button(okno, text="Start", command=start)
 start_button.pack()
 
-<<<<<<< HEAD
 #pokaz_czas = Button(okno, text="Pokaż czasy graczy", command=pokaz_czasy_graczy())
-=======
-#pokaz_czas = Button(okno, text="Pokaż czas", command=pokaz_zapisaany_czas)
->>>>>>> b6f7c4618e2b5e1ffe05beccc540db01fa4375c2
 #pokaz_czas.pack()
 
 zapisz = Button(okno, text="Zapisz przyciski", command=zapisz_przyciski)
