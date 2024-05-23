@@ -6,6 +6,7 @@ start_czasu = 0
 czasy=[]
 gracze_czasy = []
 en = []  # lista graczy
+znaki=[]
 
 def gracz():
     ilosc_g = int(ilosc_graczy.get())
@@ -19,13 +20,18 @@ def gracz():
         messagebox.showinfo(message="musi być conajmniej 2 graczy by ropocząć gre!")
 
 def zapisz_przyciski():
+    znaki.clear()
     for i in range(len(en)):
-        messagebox.showinfo(message=f"Gracz {i+1} ma przycisk {en[i].get()}")
-        okno.bind(en[i].get(), stop)
-    ilosc_graczy.config(state="disabled")
-    for entry in en:
-        entry.config(state="disabled")
-
+        znaki.append(en[i].get())
+    for i in range(len(en)):
+        if len(znaki) == len(set(znaki)):
+            messagebox.showinfo(message=f"Gracz {i+1} ma przycisk {en[i].get()}")
+            okno.bind(en[i].get(), stop)
+            ilosc_graczy.config(state="disabled")
+            for entry in en:
+                entry.config(state="disabled")
+        else:
+            messagebox.showerror(message="przyciski nie mogą się powtażać")
 def zmien():
     ilosc_graczy.config(state="normal")
     for entry in en:
