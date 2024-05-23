@@ -72,9 +72,9 @@ def wygrana():
     zwyciezca=gracze_czasy[0]
     messagebox.showinfo(message=f"gracz z przyciskiem ({zwyciezca[0]}) wygrał z czasem  {round(10-zwyciezca[1],2)}")
 
-#def pokaz_czasy_graczy():
-    #for i in range(len(czasy)):
-    #messagebox.showinfo(message=)
+def pokaz_czasy_graczy():
+    for i in range(len(czasy)):
+        messagebox.showinfo(message=f"gracz z zankiem i czasem{czasy[i]}")
 okno = Tk()
 okno.title("Gra w 10 sekund")
 okno.geometry("800x800")
@@ -90,8 +90,8 @@ stworz_graczy.pack()
 start_button = Button(okno, text="Start", command=start)
 start_button.pack()
 
-#pokaz_czas = Button(okno, text="Pokaż czasy graczy", command=pokaz_czasy_graczy())
-#pokaz_czas.pack()
+pokaz_czas = Button(okno, text="Pokaż czasy graczy", command=pokaz_czasy_graczy)
+pokaz_czas.pack()
 
 zapisz = Button(okno, text="Zapisz przyciski", command=zapisz_przyciski)
 zapisz.pack()
