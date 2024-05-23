@@ -30,9 +30,11 @@ def zapisz_przyciski():
             ilosc_graczy.config(state="disabled")
             for entry in en:
                 entry.config(state="disabled")
+            start_button.config(state="normal")
         else:
             messagebox.showerror(message="przyciski nie mogą się powtażać")
 def zmien():
+    start_button.config(state="disabled")
     ilosc_graczy.config(state="normal")
     for entry in en:
         entry.config(state="normal")
@@ -52,8 +54,7 @@ def stop(event):
         zapisany_czas = round(time.time() - start_czasu, 2)
         for i in range(len(en)):
             if event.char == en[i].get():
-                gracze_czasy.append((en[i].get(), round(10-zapisany_czas,2)))
-                czasy.append((en[i].get(), round(zapisany_czas,2)))
+                gracze_czasy.append((f"gracz {i + 1}", round(10 - zapisany_czas, 2)))
                 print(f"Gracz {i+1} z przyciskiem {en[i].get()} ma {zapisany_czas} sekund")
                 okno.unbind(en[i].get())
 
@@ -68,19 +69,15 @@ def czas():
             messagebox.showinfo(message="Minęło 15 sekund!")
             wygrana()
 
-def pokaz_zapisaany_czas():
-    gracze_czasy.sort(reverse=True)
-    print(gracze_czasy)
-    wygrana()
-
 def wygrana():
-    gracze_czasy.sort(reverse=True)
+    gracze_czasy.sort(key=lambda x:x[1])
+    print(gracze_czasy)
     zwyciezca=gracze_czasy[0]
-    messagebox.showinfo(message=f"gracz z przyciskiem ({zwyciezca[0]}) wygrał z czasem  {round(10-zwyciezca[1],2)}")
+    messagebox.showinfo(message=f"{zwyciezca[0]}  wygrał z czasem  {round(10-zwyciezca[1],2)}")
 
 def pokaz_czasy_graczy():
-    for i in range(len(czasy)):
-        messagebox.showinfo(message=f"gracz z zankiem i czasem{czasy[i]}")
+    for i in range(len(gracze_czasy)):
+        messagebox.showinfo(message=f"{gracze_czasy[i]}")
 okno = Tk()
 okno.title("Gra w 10 sekund")
 okno.geometry("800x800")
@@ -95,7 +92,7 @@ stworz_graczy.pack()
 
 start_button = Button(okno, text="Start", command=start)
 start_button.pack()
-
+start_button.config(state="disabled")
 pokaz_czas = Button(okno, text="Pokaż czasy graczy", command=pokaz_czasy_graczy)
 pokaz_czas.pack()
 
